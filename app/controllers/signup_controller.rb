@@ -8,9 +8,11 @@ class SignupController < ApplicationController
   end
 
   def create 
-    @user = User.new(user_params)
-    if @user.save
+    @user = User.create(user_params)
+    if @user.valid?
+      session[:current_user] = @user
       redirect_to users_path
+      # redirect_to root_path
     else
       render :new, status: :unprocessable_entity
     end

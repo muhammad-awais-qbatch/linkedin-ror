@@ -1,11 +1,18 @@
 
 <h1>Users</h1>
 <ul>
-  <% @current_user = User.find(session[:current_user]['id']) %>
+  <%# <% @n1_sol =  %> 
+  <%# <% @current_user = User.includes(:sender_connections, :reciever_connections).where(sender_connections: {sender_id: session[:current_user]['id']}).or(User.includes(:sender_connections, :reciever_connections).where(reciever_connections: {reciever_id: session[:current_user]['id']})).find(session[:current_user]['id']) %> 
+  <% @current_user = User.preload(:sender_connections, :reciever_connections).find(session[:current_user]['id']) %>
   <% @users.each do |user| %>
   <% if session[:current_user]['id'] != user.id%>
-      <% @current_sender_connection = @current_user.sender_connections.where(reciever_id: user.id).first %>
-      <% @current_reciever_connection = @current_user.reciever_connections.where(sender_id: user.id).first %>
+  <%@current_user.sender_connections%>
+      <%# <% @current_sender_connection = @current_user.sender_connections.where(reciever_id: user.id).first %> 
+      <% @current_sender_connection = @current_user.sender_connections.select{|con| con.reciever_id == user.id}.first %>
+
+      <%# <% @current_reciever_connection = @current_user.reciever_connections.where(sender_id: user.id).first %> 
+      <% @current_reciever_connection = @current_user.reciever_connections.select{|con| con.sender_id == user.id}.first %>
+
     <% if !((@current_reciever_connection && @current_reciever_connection['status'] == 'Confirmed') || (@current_sender_connection && @current_sender_connection['status'] == 'Confirmed')) %>
     <li>
       <%= user.id %>
@@ -18,7 +25,6 @@
        <%# <%=@current_sender_connection['status']%> 
       <p>Request Send</p>
       <%elsif @current_reciever_connection && @current_reciever_connection['status'] == 'Pending' %>
-      <%= "None" %>
       <%= button_to "Accept Request", "/connections/accept/#{user.id}", method: :post %>
       <%else%>
       <%= button_to "Connect", "/connections/#{user.id}", method: :post %>
