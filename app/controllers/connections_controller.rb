@@ -1,4 +1,8 @@
 class ConnectionsController < ApplicationController
+
+
+  skip_before_action :authenticate, except: [:index, :create, :accept]
+
   def index
     @user = User.find(session[:current_user]['id'])
     @sender_connections = @user.sender_connections
@@ -26,11 +30,20 @@ class ConnectionsController < ApplicationController
 
 
   def show
+    if session[:current_user]
     @user = User.find(session[:current_user]['id'])
+    end
     @id = params['id']
     # @skills = []
-    if @user.reciever_connections.where(sender_id: @id, status:'Confirmed').first || @user.sender_connections.where(reciever_id: @id, status:'Confirmed').first
+    if @user && (@user.reciever_connections.where(sender_id: @id, status:'Confirmed').first || @user.sender_connections.where(reciever_id: @id, status:'Confirmed').first)
       @skills = User.find(@id).skills
+    elsif @user && User.find(@id)
+      @skills = User.find(@id).skills
+      @not_a_connection = true
+    elsif User.find(@id)
+      @skills = User.find(@id).skills
+      @not_a_connection = true
+      @not_login = true
     else 
       redirect_to "/connections", status: 404
     end

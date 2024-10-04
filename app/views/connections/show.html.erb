@@ -1,10 +1,14 @@
 <% @skills.each do |skill| %>
 <br>
+<% if @not_login && @not_a_connection %>
 <%= skill.skill_name %>
+<%elsif @not_a_connection%>
+<%= skill.skill_name %> endorsed: <%= skill.user_skills.first.endorsements.count %> times
 <%# <%= skill.user_skills.first.endorsements_count %> 
-<% if skill.user_skills.first.endorsements.first %>
-Endorsed: <%= skill.user_skills.first.endorsements.first['id'] %>
+<% elsif skill.user_skills.first.endorsements.first %>
+<%= skill.skill_name %> endorsed: <%= skill.user_skills.first.endorsements.count %> times, Your also endorsed: <%= skill.user_skills.first.endorsements.first['id'] %>
 <%else%>
+<%= skill.skill_name %>
 <%= button_to "Endorse", "/endorsements/#{skill.user_skills.first[:id]}", method: :post %>
 <%end%>
 <%end%>
