@@ -1,0 +1,37 @@
+
+<h1>Users</h1>
+<ul>
+  <% @current_user = User.find(session[:current_user]['id']) %>
+  <% @users.each do |user| %>
+  <% if session[:current_user]['id'] != user.id%>
+      <% @current_sender_connection = @current_user.sender_connections.where(reciever_id: user.id).first %>
+      <% @current_reciever_connection = @current_user.reciever_connections.where(sender_id: user.id).first %>
+    <% if !((@current_reciever_connection && @current_reciever_connection['status'] == 'Confirmed') || (@current_sender_connection && @current_sender_connection['status'] == 'Confirmed')) %>
+    <li>
+      <%= user.id %>
+      <%# <%= (User.find(session[:current_user]['id']).received_connections.find(user.id) || "")  %>
+
+      <% if @current_sender_connection && @current_sender_connection['status'] == 'Pending' %>
+      <%# <%= @current_sender_connection['id'] %> 
+      <%# Sender: <%=@current_sender_connection['sender_id']%> 
+      <%# <%=@current_sender_connection['reciever_id']%>
+       <%# <%=@current_sender_connection['status']%> 
+      <p>Request Send</p>
+      <%elsif @current_reciever_connection && @current_reciever_connection['status'] == 'Pending' %>
+      <%= "None" %>
+      <%= button_to "Accept Request", "/connections/accept/#{user.id}", method: :post %>
+      <%else%>
+      <%= button_to "Connect", "/connections/#{user.id}", method: :post %>
+      <%end%>
+      <%# <% if Connection.where(sender_id: session[:current_user]['id']).first %> 
+      <%# <p>Request Send</p> %>
+      <%# <% elsif Connection.where(reciever_id: session[:current_user]['id']).first %>
+      <%# <%= button_to "Accept Request", "/connections/#{user.id}", method: :post %> 
+      <%# <%else%>
+      <%# <%= button_to "Connect", "/connections/#{user.id}", method: :post %>
+      <%# <% end%>
+     </li>
+     <%end%>
+   <% end %> 
+   <%end%>
+</ul>

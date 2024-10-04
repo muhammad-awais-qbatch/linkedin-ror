@@ -1,0 +1,10 @@
+<% @skills.each do |skill| %>
+<br>
+<%= skill.skill_name %>
+<%# <%= skill.user_skills.first.endorsements_count %> 
+<% if skill.user_skills.first.endorsements.first %>
+Endorsed: <%= skill.user_skills.first.endorsements.first['id'] %>
+<%else%>
+<%= button_to "Endorse", "/endorsements/#{skill.user_skills.first[:id]}", method: :post %>
+<%end%>
+<%end%>

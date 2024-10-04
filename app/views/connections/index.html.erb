@@ -1,0 +1,16 @@
+<h1>Sender Connections</h1>
+<% @sender_connections.each do |sender_connection| %>
+<%if sender_connection['status'] == 'Pending'%>
+<p>Pending: <%= sender_connection['reciever_id'] %></p>
+<%else%>
+<p>Confirmed: <%= link_to sender_connection['reciever_id'], "/connections/#{sender_connection['reciever_id']}" %></p>
+<%end%>
+<%end%>
+<h1>Reciever Connections</h1>
+<% @reciever_connections.each do |reciever_connection| %>
+<%if reciever_connection['status'] == 'Pending'%>
+<p>Pending: <%= reciever_connection['sender_id'] %></p>
+<%else%>
+<p>Confirmed: <%= link_to reciever_connection['sender_id'], "/connections/#{reciever_connection['sender_id']}" %></p>
+<%end%>
+<%end%>

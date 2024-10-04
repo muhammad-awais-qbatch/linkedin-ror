@@ -1,0 +1,5 @@
+<br>
+<% @skills.each do |skill|%>
+<%= skill.skill_name %> <%=skill.user_skills.first.endorsements_count%> <%=skill.user_skills.first.endorsements.count%>
+<br>
+<%end%>

@@ -1,0 +1,27 @@
+<h1>Login</h1>
+
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+<% if flash[:alert] %>
+  Alert: <%= flash[:alert] %>
+<% end %>
+
+<%= form_for(action="login")  do |form| %>
+
+  <div>
+    <%= form.label :username %><br>
+    <%= form.text_field :username %><br>
+  </div>
+
+    <div>
+    <%= form.label :password_digest %><br>
+    <%= form.password_field :password_digest %><br>
+  </div>
+
+  <div>
+    <%= form.submit("Login") %>
+  </div>
+<% end %>
+
+<%= link_to "Signup", signup_path %>
