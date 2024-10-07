@@ -1,6 +1,7 @@
 class LoginController < ApplicationController
   
   skip_before_action :authenticate, except: [:delete]
+  before_action :redirect_if_user, except: [:delete]
   def index
   end
   def new
@@ -10,6 +11,8 @@ class LoginController < ApplicationController
     # puts "Username: ", params[:login][:username], " Password: ", params[:login][:password_digest]
     # @user = User.where(username: params[:login][:username], password_digest: params[:login][:password_digest]).limit(1)[0]
     @user = User.where(username: params[:login][:username], password_digest: params[:login][:password_digest]).limit(1)[0]
+
+    puts "#{@user}----"
 
     if @user
       flash[:notice] = ""
@@ -30,5 +33,11 @@ class LoginController < ApplicationController
     # render :js => "alert('Logout successfully');"
     flash[:alert] = "Logout successfully"
     redirect_to login_path
+  end
+
+  def redirect_if_user
+    if session[:current_user]
+      redirect_to root_path
+    end
   end
 end

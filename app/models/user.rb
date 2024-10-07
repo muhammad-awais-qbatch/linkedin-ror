@@ -1,4 +1,14 @@
 class User < ApplicationRecord
+
+
+  after_initialize do |user|
+    Rails.logger.info("You have initialized an object!")
+  end
+
+  after_find do |user|
+    Rails.logger.info("You have found an object!")
+  end
+
   has_secure_password
   has_many :user_skills
   has_many :skills, through: :user_skills

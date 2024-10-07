@@ -1,0 +1,93 @@
+<p style="color: green"><%= notice %></p>
+
+<%# <%= auto_discovery_link_tag(:json) ?  %> 
+<%# <br> %>
+
+<%# <%= javascript_tag("alert('All is good')", type: "application/javascript") %> 
+<%# <br> %>
+<%# <%= javascript_tag type: "application/javascript" do %>
+  <%# alert("Welcome to my app!") %>
+<%# <% end %> 
+<%= form_with url: "/search", model: @posts, method: :get do |form| %>
+  <%= form.label :query, "Search for:" %>
+  <%= form.text_field :query %>
+
+<%= form.check_box :biography %>
+<%= form.label :biography, "Biography" %>
+<%= form.check_box :romance %>
+<%= form.label :romance, "Romance" %>
+<%= form.check_box :mystery %>
+<%= form.label :mystery, "Mystery" %>
+
+<%= form.radio_button :flavor, "chocolate_chip" %>
+<%= form.label :flavor_chocolate_chip, "Chocolate Chip" %>
+<%= form.radio_button :flavor, "vanilla" %>
+<%= form.label :flavor_vanilla, "Vanilla" %>
+<%= form.radio_button :flavor, "hazelnut" %>
+<%= form.label :flavor_hazelnut, "Hazelnut" %>
+
+<%= form.date_field :born_on %>
+<%= form.time_field :started_at %>
+<%= form.datetime_local_field :graduation_day %>
+<%= form.month_field :birthday_month %>
+<%= form.week_field :birthday_week %>
+
+<%= form.password_field :password %>
+<%= form.email_field :address %>
+<%= form.telephone_field :phone %>
+<%= form.url_field :homepage %>
+
+<%= form.text_area :message, size: "70x5" %>
+<%= form.hidden_field :parent_id, value: "foo" %>
+<%= form.number_field :price, in: 1.0..20.0, step: 0.5 %>
+<%= form.range_field :discount, in: 1..100 %>
+<%= form.search_field :name %>
+<%= form.color_field :favorite_color %>
+
+<%= form.select :city, ["Berlin", "Chicago", "Madrid"] %>
+<%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]] %>
+<%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]], selected: "CHI" %>
+<%= form.select :city,
+      {
+        "Europe" => [ ["Berlin", "BE"], ["Madrid", "MD"] ],
+        "North America" => [ ["Chicago", "CHI"] ],
+      },
+      selected: "CHI" %>
+
+      <%= form.time_zone_select :time_zone %>
+        <%= form.file_field :csv_file %>
+        <%= text_field_with_label form, :name %>
+        <%= check_box_tag "accept" %>
+
+
+
+  <%= form.submit "Search" %>
+<% end %>
+
+<% @greeting = capture do %>
+  <p>Welcome! The date and time is <%= Time.current %></p>
+<% end %>
+<%= @greeting %>
+<%= excerpt("This is also an example", "an", radius: 4, omission: "<chop> ") %>
+<br>
+<%= pluralize(1, "person", plural: "users") %>
+<br>
+<%= truncate("one-two-three-four-five", length: 12, separator: "-") %>
+<br>
+<%= word_wrap("Once upon a time", line_width: 8) %>
+<br>
+<%= mail_to "muhammad.awais02@qbatch.com" %>
+<% content_for :title, "Posts" %>
+
+<h1>Posts</h1>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <%= render post %>
+    <p>
+      <%= link_to "Show this post", post %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New post", new_post_path %>

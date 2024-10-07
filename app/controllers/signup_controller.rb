@@ -3,6 +3,7 @@ class SignupController < ApplicationController
   #   @user = User.All
   # end
   skip_before_action :authenticate
+  before_action :redirect_if_user
   def new
     @user = User.new
   end
@@ -21,5 +22,11 @@ class SignupController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :username, :password_digest)
+  end
+
+  def redirect_if_user
+    if session[:current_user]
+      redirect_to root_path
+    end
   end
 end

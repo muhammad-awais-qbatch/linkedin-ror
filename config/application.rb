@@ -23,5 +23,15 @@ module Linkedin
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.generators do |g|
+      g.helper :my_helper
+    end
+
+    config.generators do |g|
+      g.test_framework :my_test_unit, fixture: false
+      g.fallbacks[:my_test_unit] = :test_unit
+    end
+    
   end
 end
