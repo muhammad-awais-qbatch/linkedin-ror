@@ -1,7 +1,7 @@
 class Endorsement < ApplicationRecord
   belongs_to :user
-  belongs_to :user_skill
-  has_many :user_skills
+  belongs_to :user_skill, counter_cache: true
+  # has_many :user_skills
   # belongs_to :skill
   # has_many :skills, through: :user_skills
   
