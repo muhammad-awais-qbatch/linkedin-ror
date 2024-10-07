@@ -18,9 +18,9 @@
   </div>
 
     <div>
-    <%= form.label :password_digest %><br>
-    <%= form.password_field :password_digest %><br>
-    <% @user.errors.full_messages_for(:password_digest).each do |message| %>
+    <%= form.label :password %><br>
+    <%= form.password_field :password %><br>
+    <% @user.errors.full_messages_for(:password).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>

@@ -10,7 +10,7 @@ class LoginController < ApplicationController
   def validate
     # puts "Username: ", params[:login][:username], " Password: ", params[:login][:password_digest]
     # @user = User.where(username: params[:login][:username], password_digest: params[:login][:password_digest]).limit(1)[0]
-    @user = User.where(username: params[:login][:username], password_digest: params[:login][:password_digest]).limit(1)[0]
+    @user = User.authenticate_by(username: params[:login][:username], password: params[:login][:password_digest])
 
     puts "#{@user}----"
 
